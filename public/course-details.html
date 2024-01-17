@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details - Software Engineering</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .module-tree {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        .module-node {
+            position: relative;
+            padding-top: 2rem;
+            cursor: pointer; /* Add cursor style to indicate clickability */
+        }
+        .module-node:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 2rem;
+            background: #4a5568;
+        }
+        .module-content {
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            background: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+        .strikethrough {
+            text-decoration: line-through;
+        }
+    </style>
+  </head>
+  <body class="bg-gray-100 py-10">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-10">Software Engineering - Course Details</h1>
+
+        <div id="course-details" class="bg-white p-6 rounded-lg shadow-lg mb-0">
+            <!-- Content will be dynamically added here -->
+        </div>
+
+        <div class="module-tree">
+            <!-- Module Nodes -->
+            <!-- Module 1 -->
+            <div class="module-node" data-module-name="Module 1" data-subtopics='[{"subtopic":"Introduction to Software Engineering","text":"Software Engineering – objectives and definitions, Software Life Cycle – different phases, Lifecycle Models - Waterfall, Relaxed Waterfall, RAD, Prototyping, Incremental, Spiral."}]'>
+                <div class="module-content">
+                    <h4 style="text-align: center;" class="font-semibold text-lg text-purple-600 mb-2">Module 1</h4>
+                </div>
+            </div>
+            <!-- Module 2 -->
+            <div class="module-node" data-module-name="Module 2" data-subtopics='[{"subtopic":"Modern Software Engineering Practices","text":"Agile: Values and Principles, Philosophy, Agile vs. Waterfall, Methods and Practices of Agile, Pitfalls of Agile methodology, Scrum: Roles, Workflow: Sprint, Daily Scrum, Sprint review, etc., Limitations of Scrum, Extreme Programming: Principles, Guidelines, Activities, Values, Practices, Introduction to DevOps and SEMAT."}]'>
+                <div class="module-content">
+                    <h4 style="text-align: center;" class="font-semibold text-lg text-purple-600 mb-2">Module 2</h4>
+                </div>
+            </div>
+            <!-- Module 3 -->
+            <div class="module-node" data-module-name="Module 3" data-subtopics='[{"subtopic":"Requirements Analysis and Specification Phase","text":"Requirements Collection and Analysis, Requirement Specifications – General Structure of Software Requirement Specifications (SRS), Functional and Non-functional Requirements, Representing Requirements as Use Cases with examples."}]'>
+                <div class="module-content">
+                    <h4 style="text-align: center;" class="font-semibold text-lg text-purple-600 mb-2">Module 3</h4>
+                </div>
+            </div>
+            <!-- Module 4 -->
+            <div class="module-node" data-module-name="Module 4" data-subtopics='[{"subtopic":"Structured Analysis Modeling Techniques","text":"Process Model using Context Diagrams (CD) and Data Flow Diagram (DFD) with examples, Data Dictionary, Decision Tree, Decision Table with examples, Data Model using Entity Relationship Diagram (ERD) with examples."}]'>
+                <div class="module-content">
+                    <h4 style="text-align: center;" class="font-semibold text-lg text-purple-600 mb-2">Module 4</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div id="module-modal" class="modal">
+          <div class="modal-content">
+              <span class="close" onclick="closeModal()">&times;</span>
+              <h2 id="modal-title" class="text-xl font-semibold text-gray-800 mb-4"></h2>
+              <ul id="modal-content-list" class="list-disc list-inside text-gray-600"></ul>
+          </div>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">Textbooks:</h3>
+        <ul id="textbooks-list" class="list-disc list-inside text-gray-600">
+            <!-- Dynamically added textbooks will appear here -->
+        </ul>
+
+        <!-- Reference Books Section -->
+        <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">Reference Books:</h3>
+        <ul id="reference-books-list" class="list-disc list-inside text-gray-600">
+            <!-- Dynamically added reference books will appear here -->
+        </ul>
+
+        <!-- Resources Section -->
+        <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">Resources:</h3>
+        <ul id="resources-list" class="list-disc list-inside text-gray-600">
+            <!-- Dynamically added resources will appear here -->
+        </ul>
+
+        <script>
+          const courseCode = new URLSearchParams(window.location.search).get('coursecode');
+      
+          fetch(`/api/courses/${courseCode}`)
+              .then(response => response.json())
+              .then(course => {
+                  // Update course details on the page
+                  document.title = `Course Details - ${course.coursename}`;
+                  document.getElementById('course-details').innerHTML = `
+                      <h2 class="text-2xl font-semibold text-purple-700 mb-3">${course.coursename}</h2>
+                      <p class="text-gray-600 mb-2"><strong>Code:</strong> ${course.coursecode}</p>
+                      <p class="text-gray-600 mb-2"><strong>Type:</strong> ${course.coursetype}</p>
+                      <p class="text-gray-600 mb-2"><strong>Credits:</strong> ${course.creditpoints}</p>
+                      <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">Course Outcomes:</h3>
+                      <ul class="list-disc list-inside text-gray-600">
+                          ${course.courseoutcomes.map(outcome => `<li>${outcome}</li>`).join('')}
+                      </ul>
+                  `;
+      
+                  // Dynamically create modals and add content
+                  course.modules.forEach((module, index) => {
+                      const moduleId = `module${index + 1}-modal`;
+                      const moduleContent = module[`module${index + 1}`].subtopics;
+      
+                      // Call the createModuleModal function
+                      createModuleModal(moduleId, `Module ${index + 1}: Subtopics`, [module]);
+                  });
+      
+                  // Attach click events to each module node
+                  document.querySelectorAll('.module-node').forEach((moduleNode, index) => {
+                      moduleNode.addEventListener('click', () => openModal(`module${index + 1}-modal`));
+                  });
+                  addTextbooksToPage(course.textbooks);
+                  addReferenceBooksToPage(course.referencebooks);
+                  addResourcesToPage(course.resources);
+              })
+              .catch(error => console.error('Error fetching course details:', error));
+      
+          // Function to dynamically add course details to the page
+          function addCourseDetailsToPage(course) {
+              const courseDetailsContainer = document.getElementById('course-details');
+              courseDetailsContainer.innerHTML = `
+                  <h2 class="text-2xl font-semibold text-purple-700 mb-3">${course.coursename}</h2>
+                  <p class="text-gray-600 mb-2"><strong>Code:</strong> ${course.coursecode}</p>
+                  <p class="text-gray-600 mb-2"><strong>Type:</strong> ${course.coursetype}</p>
+                  <p class="text-gray-600 mb-2"><strong>Credits:</strong> ${course.creditpoints}</p>
+                  <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">Course Outcomes:</h3>
+                  <ul class="list-disc list-inside text-gray-600">
+                      ${course.courseoutcomes.map(outcome => `<li>${outcome}</li>`).join('')}
+                  </ul>
+              `;
+          }
+      
+          function createModuleModal(modalId, modalTitle, modules) {
+    const modal = document.createElement('div');
+    modal.id = modalId;
+    modal.classList.add('modal');
+
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+
+    const closeBtn = document.createElement('span');
+    closeBtn.classList.add('close');
+    closeBtn.innerHTML = '&times;';
+    closeBtn.onclick = () => closeModal(modalId);
+
+    const title = document.createElement('h2');
+    title.classList.add('text-xl', 'font-semibold', 'text-gray-800', 'mb-4');
+    title.innerText = modalTitle;
+
+    // Create and append content to modal
+    const subtopicsList = document.createElement('ul');
+    subtopicsList.classList.add('list-disc', 'list-inside', 'text-gray-600');
+
+    modules.forEach(module => {
+        Object.keys(module).forEach(moduleKey => {
+            const subtopics = module[moduleKey].subtopics;
+            const moduleName = moduleKey;
+
+            // Create list item for module
+            const moduleListItem = document.createElement('ol');
+
+            // Create nested unordered list for subtopics
+            const subtopicsUl = document.createElement('ul');
+
+            subtopics.forEach(subtopic => {
+                const subtopicListItem = document.createElement('li');
+                subtopicListItem.innerHTML = `&bullet; <strong>${subtopic.subtopic}:</strong> <p id="textToStrike">${subtopic.text}</p>`;
+                subtopicsUl.appendChild(subtopicListItem);
+            });
+
+            moduleListItem.appendChild(subtopicsUl);
+            subtopicsList.appendChild(moduleListItem);
+        });
+    });
+
+    modalContent.appendChild(closeBtn);
+    modalContent.appendChild(title);
+    modalContent.appendChild(subtopicsList);
+    modal.appendChild(modalContent);
+
+    // Append the modal to the body only if it doesn't exist
+    if (!document.getElementById(modalId)) {
+        document.body.appendChild(modal);
+    }
+}
+
+
+      
+          // Function to open the modal
+          function openModal(modalId) {
+              const modal = document.getElementById(modalId);
+              if (modal) {
+                  modal.style.display = 'block';
+              }
+          }
+      
+          // Function to close the modal
+          function closeModal(modalId) {
+              const modal = document.getElementById(modalId);
+              if (modal) {
+                  modal.style.display = 'none';
+              }
+          }
+      
+          // Close modal on clicking outside the modal content
+          window.onclick = function (event) {
+              const modal = document.getElementById('module-modal');
+              if (event.target === modal) {
+                  modal.style.display = 'none';
+              }
+          };
+
+          function toggleStrikethrough() {
+            var selection = window.getSelection();
+            if (!selection.isCollapsed) {
+                var selectedText = selection.toString();
+                var textToStrike = document.getElementById("textToStrike");
+                var existingSpan = getExistingSpan(selectedText);
+
+                if (existingSpan) {
+                    // Remove strikethrough
+                    existingSpan.replaceWith(document.createTextNode(selectedText));
+                } else {
+                    // Add strikethrough
+                    var span = document.createElement("span");
+                    span.className = "strikethrough";
+                    span.appendChild(document.createTextNode(selectedText));
+                    selection.getRangeAt(0).deleteContents();
+                    selection.getRangeAt(0).insertNode(span);
+                }
+            }
+        }
+
+        // Function to check if the selected text already has strikethrough
+        function getExistingSpan(selectedText) {
+            var textToStrike = document.getElementById("textToStrike");
+            var spans = textToStrike.getElementsByTagName("span");
+
+            for (var i = 0; i < spans.length; i++) {
+                if (spans[i].innerText === selectedText && spans[i].classList.contains("strikethrough")) {
+                    return spans[i];
+                }
+            }
+
+            return null;
+        }
+
+        // Attach the function to the mouseup event on the document using event delegation
+        document.addEventListener("mouseup", toggleStrikethrough);
+        
+        function addTextbooksToPage(textbooks) {
+        const textbooksList = document.getElementById('textbooks-list');
+        textbooksList.innerHTML = textbooks.map(textbook => `<li>${textbook}</li>`).join('');
+        }
+
+        // Dynamically add reference books to the page
+        function addReferenceBooksToPage(referenceBooks) {
+            const referenceBooksList = document.getElementById('reference-books-list');
+            referenceBooksList.innerHTML = referenceBooks.map(book => `<li>${book}</li>`).join('');
+        }
+
+        // Dynamically add resources to the page
+        function addResourcesToPage(resources) {
+            const resourcesList = document.getElementById('resources-list');
+            resourcesList.innerHTML = resources.map(resource => `<li>${resource}</li>`).join('');
+        }
+
+      </script>
+      </div>
+      </body>
+      </html>
