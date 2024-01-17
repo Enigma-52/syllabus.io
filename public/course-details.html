@@ -63,7 +63,7 @@
   </head>
   <body class="bg-gray-100 py-10">
     <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold text-center text-gray-800 mb-10">Software Engineering - Course Details</h1>
+        <h1 id="heading" class="text-4xl font-bold text-center text-gray-800 mb-10">Software Engineering - Course Details</h1>
 
         <div id="course-details" class="bg-white p-6 rounded-lg shadow-lg mb-0">
             <!-- Content will be dynamically added here -->
@@ -130,6 +130,7 @@
               .then(course => {
                   // Update course details on the page
                   document.title = `Course Details - ${course.coursename}`;
+                  document.getElementById('heading').innerHTML = `Course Details - ${course.coursename}`;
                   document.getElementById('course-details').innerHTML = `
                       <h2 class="text-2xl font-semibold text-purple-700 mb-3">${course.coursename}</h2>
                       <p class="text-gray-600 mb-2"><strong>Code:</strong> ${course.coursecode}</p>
@@ -209,7 +210,7 @@
 
             subtopics.forEach(subtopic => {
                 const subtopicListItem = document.createElement('li');
-                subtopicListItem.innerHTML = `&bullet; <strong>${subtopic.subtopic}:</strong> <p id="textToStrike">${subtopic.text}</p>`;
+                subtopicListItem.innerHTML = `&bullet; <strong>${subtopic.subtopic}:</strong> <div>${subtopic.text}</div>`;
                 subtopicsUl.appendChild(subtopicListItem);
             });
 
@@ -228,8 +229,6 @@
         document.body.appendChild(modal);
     }
 }
-
-
       
           // Function to open the modal
           function openModal(modalId) {
@@ -254,44 +253,6 @@
                   modal.style.display = 'none';
               }
           };
-
-          function toggleStrikethrough() {
-            var selection = window.getSelection();
-            if (!selection.isCollapsed) {
-                var selectedText = selection.toString();
-                var textToStrike = document.getElementById("textToStrike");
-                var existingSpan = getExistingSpan(selectedText);
-
-                if (existingSpan) {
-                    // Remove strikethrough
-                    existingSpan.replaceWith(document.createTextNode(selectedText));
-                } else {
-                    // Add strikethrough
-                    var span = document.createElement("span");
-                    span.className = "strikethrough";
-                    span.appendChild(document.createTextNode(selectedText));
-                    selection.getRangeAt(0).deleteContents();
-                    selection.getRangeAt(0).insertNode(span);
-                }
-            }
-        }
-
-        // Function to check if the selected text already has strikethrough
-        function getExistingSpan(selectedText) {
-            var textToStrike = document.getElementById("textToStrike");
-            var spans = textToStrike.getElementsByTagName("span");
-
-            for (var i = 0; i < spans.length; i++) {
-                if (spans[i].innerText === selectedText && spans[i].classList.contains("strikethrough")) {
-                    return spans[i];
-                }
-            }
-
-            return null;
-        }
-
-        // Attach the function to the mouseup event on the document using event delegation
-        document.addEventListener("mouseup", toggleStrikethrough);
         
         function addTextbooksToPage(textbooks) {
         const textbooksList = document.getElementById('textbooks-list');

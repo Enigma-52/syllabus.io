@@ -95,6 +95,9 @@ const courses = [
         "Fundamentals of Software Engineering, 3rd Edition, Rajib Mall, 2013.",
         "Fundamentals of Software Engineering, 2nd Ed, C. Ghezzi, M. Jazayeri and D. Mandrioli, Prentice Hall of India, 2003.",
       ],
+      resources:[
+        "Coming soon...end sem me time hai ;)"
+      ]
     },
     {
       coursename: "Computer Networks",
