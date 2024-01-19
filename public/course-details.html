@@ -128,7 +128,6 @@
           fetch(`/api/courses/${courseCode}`)
               .then(response => response.json())
               .then(course => {
-                  // Update course details on the page
                   document.title = `Course Details - ${course.coursename}`;
                   document.getElementById('heading').innerHTML = `Course Details - ${course.coursename}`;
                   document.getElementById('course-details').innerHTML = `
