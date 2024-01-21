@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details - Software Engineering</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <link rel="stylesheet" href="./styles/courseDetailsStyle.css">
+  </head>
+  <body class="bg-gray-100 py-10">
+    <div class="container mx-auto px-4">
+        <h1 id="heading" class="text-4xl font-bold text-center text-gray-800 mb-10">Software Engineering - Course Details</h1>
+
+        <div id="course-details" class="bg-white p-6 rounded-lg shadow-lg mb-0">
+            <!-- Content will be dynamically added here -->
+        </div>
+
+        <div class="module-tree">
+            <!-- Module Nodes -->
+            <!-- Module 1 -->
+            <div class="module-node" data-module-name="Module 1" data-subtopics='[{"subtopic":"Introduction to Software Engineering","text":"Software Engineering – objectives and definitions, Software Life Cycle – different phases, Lifecycle Models - Waterfall, Relaxed Waterfall, RAD, Prototyping, Incremental, Spiral."}]'>
+                <div class="module-content">
+                    <h4 style="text-align: center;" class="font-semibold text-lg text-purple-600 mb-2">Module 1</h4>
+                </div>
+            </div>
+            <!-- Module 2 -->
+            <div class="module-node" data-module-name="Module 2" data-subtopics='[{"subtopic":"Modern Software Engineering Practices","text":"Agile: Values and Principles, Philosophy, Agile vs. Waterfall, Methods and Practices of Agile, Pitfalls of Agile methodology, Scrum: Roles, Workflow: Sprint, Daily Scrum, Sprint review, etc., Limitations of Scrum, Extreme Programming: Principles, Guidelines, Activities, Values, Practices, Introduction to DevOps and SEMAT."}]'>
+                <div class="module-content">
+                    <h4 style="text-align: center;" class="font-semibold text-lg text-purple-600 mb-2">Module 2</h4>
+                </div>
+            </div>
+            <!-- Module 3 -->
+            <div class="module-node" data-module-name="Module 3" data-subtopics='[{"subtopic":"Requirements Analysis and Specification Phase","text":"Requirements Collection and Analysis, Requirement Specifications – General Structure of Software Requirement Specifications (SRS), Functional and Non-functional Requirements, Representing Requirements as Use Cases with examples."}]'>
+                <div class="module-content">
+                    <h4 style="text-align: center;" class="font-semibold text-lg text-purple-600 mb-2">Module 3</h4>
+                </div>
+            </div>
+            <!-- Module 4 -->
+            <div class="module-node" data-module-name="Module 4" data-subtopics='[{"subtopic":"Structured Analysis Modeling Techniques","text":"Process Model using Context Diagrams (CD) and Data Flow Diagram (DFD) with examples, Data Dictionary, Decision Tree, Decision Table with examples, Data Model using Entity Relationship Diagram (ERD) with examples."}]'>
+                <div class="module-content">
+                    <h4 style="text-align: center;" class="font-semibold text-lg text-purple-600 mb-2">Module 4</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div id="module-modal" class="modal">
+          <div class="modal-content">
+              <span class="close" onclick="closeModal()">&times;</span>
+              <h2 id="modal-title" class="text-xl font-semibold text-gray-800 mb-4"></h2>
+              <ul id="modal-content-list" class="list-disc list-inside text-gray-600"></ul>
+          </div>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">Textbooks:</h3>
+        <ul id="textbooks-list" class="list-disc list-inside text-gray-600">
+            <!-- Dynamically added textbooks will appear here -->
+        </ul>
+
+        <!-- Reference Books Section -->
+        <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">Reference Books:</h3>
+        <ul id="reference-books-list" class="list-disc list-inside text-gray-600">
+            <!-- Dynamically added reference books will appear here -->
+        </ul>
+
+        <!-- Resources Section -->
+        <h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">Resources:</h3>
+        <ul id="resources-list" class="list-disc list-inside text-gray-600">
+            <!-- Dynamically added resources will appear here -->
+        </ul>
+
+        
+      </div>
+      <script src="./scripts/courseDetailsScript.js"></script>
+</body>
+</html>

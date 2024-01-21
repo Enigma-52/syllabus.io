@@ -6,17 +6,10 @@
     <title>Courses Syllabus</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
-      body {
-        font-family: 'Open Sans', sans-serif;
-      }
-      .course-card:hover {
-        transform: translateY(-5px);
-      }
-    </style>
+    <link rel="stylesheet" href="./styles/coursesStyle.css">
 </head>
 <body class="bg-gradient-to-r from-blue-400 to-purple-600 py-10">
+
     <div class="container mx-auto px-4">
         <h1 class="text-4xl font-bold text-center text-white mb-10">Syllabus Courses</h1>
         <div id="courses-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -24,30 +17,6 @@
         </div>
     </div>
 
-    <script>
-      const coursesContainer = document.getElementById('courses-container');
-
-      // Fetch courses data from the API
-      fetch('/api/courses')
-        .then(response => response.json())
-        .then(courses => {
-          courses.forEach(course => {
-            const courseCard = document.createElement('a'); // Use <a> element for links
-            courseCard.href = `/course-details.html?coursecode=${course.coursecode}`;
-            courseCard.classList.add('course-card', 'bg-white', 'rounded-lg', 'shadow-lg', 'overflow-hidden', 'transition', 'duration-300', 'ease-in-out');
-            courseCard.innerHTML = `
-                <div class="p-6">
-                    <h2 class="text-2xl font-semibold text-purple-800 mb-3">${course.coursename}</h2>
-                    <p class="text-gray-700 mb-2"><strong>Code:</strong> ${course.coursecode}</p>
-                    <p class="text-gray-700 mb-2"><strong>Type:</strong> ${course.coursetype}</p>
-                    <p class="text-gray-700 mb-2"><strong>Credits:</strong> ${course.creditpoints}</p>
-                </div>
-            `;
-            coursesContainer.appendChild(courseCard);
-        });
-
-        })
-        .catch(error => console.error('Error fetching courses:', error));
-    </script>
+    <script src="./scripts/coursesScript.js"></script>
 </body>
 </html>
